@@ -70,7 +70,7 @@ public class sniffer
     	  System.out.println("Connection established\n");
     	  System.out.print("Disconnect? (y)");
     	  String close = reader.readLine(); 
-    	//  System.out.println(close);
+    	 System.out.println(close);
     	
          connection.disconnect();
     	  //TimeUnit.SECONDS.sleep(2);
