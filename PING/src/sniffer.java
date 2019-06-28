@@ -2,6 +2,7 @@ import java.io.*;
 import java.net.*;
 import openFile.*;
 
+import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 public class sniffer
@@ -19,10 +20,6 @@ public class sniffer
 	  
     try
     {
-    	  
-//    	Runtime rt = Runtime.getRuntime();
-//        
-//        rt.exec("taskkill /F /IM c:\\Program Files\\Wireshark\\Wireshark.exe");
         
     	System.out.print("Enter url: http://");
     	
@@ -53,7 +50,9 @@ public class sniffer
 	  BufferedReader reader =  
               new BufferedReader(new InputStreamReader(System.in)); 
     URL url = null;
-
+    
+    Scanner in = new Scanner(System.in);
+   
     try
     {
       // create the HttpURLConnection
@@ -62,7 +61,7 @@ public class sniffer
      
       connection.setReadTimeout(15*1000);
       
-	openfile.main(args);
+	  openfile.main(args);
 	  TimeUnit.SECONDS.sleep(15);
       connection.connect();
    
@@ -76,8 +75,41 @@ public class sniffer
          connection.disconnect();
     	  //TimeUnit.SECONDS.sleep(2);
          System.out.println("Connection terminated.");
-    	 System.exit(0);
-    	 System.out.println("not working");
+         char goAgain;
+         System.out.print("\nSniff again? (y)");
+         goAgain = in.next().charAt(0);
+         
+         //System.out.println(goAgain);
+         if(goAgain != 'y' && goAgain != 'Y') {
+        	 return "Bye";
+         }
+         
+     
+         do {
+    	 
+    	      System.out.print("Enter url: http://");
+         	  String  myUrl = reader.readLine(); 
+        	
+	    	  myUrl = "http://" + myUrl;
+	    	  url = new URL(desiredUrl);
+	        	   
+		      connection = (HttpURLConnection) url.openConnection();
+		     
+		      connection.setReadTimeout(15*1000);
+		      connection.connect();
+		      
+		      System.out.print("Disconnect? (y)");
+		       close = reader.readLine(); 
+		       
+		       connection.disconnect();
+		      
+		      System.out.print("\nSniff again? (y)");
+	          goAgain = in.next().charAt(0);
+         }while(goAgain == 'y' || goAgain == 'Y');
+         
+         
+    	// System.exit(0);
+    	// System.out.println("not working");
       }
          return "Couldn't connect";
     }
